@@ -2,7 +2,7 @@
 
 class Urls {
   /*--------BASES-------------------*/
-  static const String DOMAIN = '';
+  static const String DOMAIN = 'https://newsapi.org/v2/everything';
   static const String BASE_API = DOMAIN + '';
 
   static const String BASE_API_ACCOUNT = DOMAIN + '/api/';
