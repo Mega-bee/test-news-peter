@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'Screens/news-list-1.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -11,11 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'News app',
       theme: ThemeData(
 
       ),
-      home: Scaffold()
+      home: NewsListOne()
     );
   }
 }
