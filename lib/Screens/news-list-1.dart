@@ -71,6 +71,7 @@ class _NewsListOneState extends State<NewsListOne> {
                               ),
                               Text(
                                 'Date from Api',
+
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
