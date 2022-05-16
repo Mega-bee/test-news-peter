@@ -1,26 +1,18 @@
-class WebServiceResponse {
-  int _code;
-  String _errorMessage;
-  Data _data;
-  WebServiceResponse(this._code, this._errorMessage, this._data);
-  factory WebServiceResponse.fromJson(Map<String, dynamic> item) {
-    return WebServiceResponse(
-      item['statusCode'],
-      item['errorMessage'],
-      Data.fromJson(item['data'])  ,
-    );
-  }
-  get data => _data;
-  String get errorMessage => _errorMessage;
-  int get code => _code;
-}
-class Data {
- dynamic data;
- Data(
-      { this.data,
-      });
+import 'package:news_app/Model/NewsOne.dart';
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-    data: json["data"],
-  );
-}
+class WebServiceResponse {
+  String? status;
+  String? errorMessage;
+  List<NewsOne>? data;
+  WebServiceResponse(this.status, this.errorMessage, this.data);
+   WebServiceResponse.fromJson(Map<String, dynamic> item) {
+   status =  item['status'];
+    errorMessage =  item['message'];
+    data = [];
+      if(item['articles'] != null) {
+        item['articles'].forEach((element) {
+       data?.add(NewsOne.fromJson(element));
+     }) ;
+      }
+  }}
+

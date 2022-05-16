@@ -61,7 +61,7 @@ class DataLoaderBloc extends Bloc<GlobalEvent, GlobalState> {
       Map<String, dynamic>? queryParameters}) async {
     Uri uri = Uri.parse(url);
     final finalUri = uri.replace(queryParameters: queryParameters); //USE THIS
-    print('hihihihihihihihihihihihi');
+    // print('hihihihihihihihihihihihi');
     print(finalUri);
     final response = await http
         .get(finalUri, headers: headers)
@@ -128,7 +128,7 @@ class DataLoaderBloc extends Bloc<GlobalEvent, GlobalState> {
 
         print('Url: ${event.url}');
         if (event.requestType == RequestType.get) {
-          print("hello christian");
+          // print("hello christian");
           response = await _getRequest(event.url ?? '',
               headers: _setHeaders(event.token ?? ''),
               queryParameters: event.query);
@@ -150,30 +150,30 @@ class DataLoaderBloc extends Bloc<GlobalEvent, GlobalState> {
           print('Body: ${response.body}');
           WebServiceResponse? webServiceResponse;
           try {
+
             webServiceResponse =
                 WebServiceResponse.fromJson(json.decode(response.body));
+
           } catch (exception) {
-            print(exception);
+            print("exception: ${exception}");
             // listener.onJsonDataLoadingFailure(1);
             yield ConnectionError();
           }
           if (webServiceResponse != null) {
-            if (webServiceResponse.code < 0) {
+            print(webServiceResponse.status ?? 'hello');
+            if (webServiceResponse.status == 'error') {
               try {
                 yield Error(
-                    webServiceResponse.code,webServiceResponse.errorMessage);
+                    webServiceResponse.status, webServiceResponse.errorMessage);
+                print('errorr');
               } catch (ignored) {}
-            } else if (webServiceResponse.code > 0) {
-              print('HiWorld');
-              print(webServiceResponse.data);
-              if (webServiceResponse.code == 200) {
-                yield Successfully(webServiceResponse.data.data);
-              } else {
-                yield Error(
-                    webServiceResponse.code, webServiceResponse.errorMessage);
-              }
+            }
+            else if  (webServiceResponse.status =='ok') {
+              print('yield success');
+              yield Successfully(webServiceResponse.data);
             }
           } else {
+            print("connection errorrrrr");
             yield ConnectionError();
           }
           // return response;
