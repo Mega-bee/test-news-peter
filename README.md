@@ -12,10 +12,5 @@ flutter-app/
 |- build
 |- ios
 |- lib
-  |- news_module 
-    |- model
-    |- ui
-      |- screen
-      |- widget
 |- web
 |- test
