@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/Screens/widget.dart';
+import 'package:news_app/news_module/ui/widget/NewsCard.dart';
 
-import '../Model/NewsOne.dart';
-import '../Views/connactionError.dart';
-import '../network/DataLoaderBloc.dart';
-import '../network/WebUrl.dart';
+import '../../model/NewsOne.dart';
+import '../../../Views/connactionError.dart';
+import '../../../network/DataLoaderBloc.dart';
+import '../../../network/WebUrl.dart';
 
 class NewsListOne extends StatefulWidget {
   const NewsListOne({Key? key}) : super(key: key);

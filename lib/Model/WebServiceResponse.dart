@@ -1,4 +1,4 @@
-import 'package:news_app/Model/NewsOne.dart';
+import 'package:news_app/news_module/model/NewsOne.dart';
 
 class WebServiceResponse {
   String? status;

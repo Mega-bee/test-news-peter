@@ -1,5 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app/Model/NewsOne.dart';
+import 'package:news_app/news_module/model/NewsOne.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -19,12 +20,16 @@ class NewsCard extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Ink.image(
-                  image: NetworkImage(
-                    newsone.urlToImage.toString(),
+                CachedNetworkImage(
+                  progressIndicatorBuilder: (context, url, progress) => Center(
+                    child: CircularProgressIndicator(
+                      value: progress.progress,
+                    ),
                   ),
-                  height: 240,
-                  fit: BoxFit.cover,
+                  imageUrl: newsone.urlToImage.toString(),
+                  height: 220,
+                  width: double.infinity,
+                  fit: BoxFit.fitWidth,
                 ),
                 Positioned(
                   bottom: 16,
