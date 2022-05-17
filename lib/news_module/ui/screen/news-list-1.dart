@@ -22,6 +22,7 @@ class _NewsListOneState extends State<NewsListOne> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text("Popular News"),
       ),
       body: BlocProvider(

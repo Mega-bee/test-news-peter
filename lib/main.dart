@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'news_module/ui/screen/news-list-1.dart';
+import 'Auth_Module/ui/screen/login.dart';
+import 'Helpers/colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,9 +17,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'News app',
       theme: ThemeData(
-
+        primarySwatch: customColor
       ),
-      home: NewsListOne()
+      home: LoginScreen()
     );
   }
 }
