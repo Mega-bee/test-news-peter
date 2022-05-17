@@ -137,14 +137,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           if (apiKey.text.isEmpty) {
                             _formKey.currentState!.validate();
-                          } else {
-                            apiKey == "7f01a1f8c35e43d89dd699dcf501cfea"
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => NewsListOne()),
-                                  )
-                                : Text("Not a valid key");
+                          } else if(apiKey.text != Urls.apiToken){
+                            Text("Not a valid key");
+
+                          }else{
+                            {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NewsListOne()),
+                              );
+                            }
                           }
                         },
                         child: const Text(
