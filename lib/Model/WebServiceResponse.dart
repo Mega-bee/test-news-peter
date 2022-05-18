@@ -4,7 +4,7 @@ class WebServiceResponse {
   String? status;
   String? errorMessage;
   List<NewsOne>? data;
-  WebServiceResponse(this.status, this.errorMessage, this.data);
+  WebServiceResponse({this.status, this.errorMessage, this.data});
    WebServiceResponse.fromJson(Map<String, dynamic> item) {
    status =  item['status'];
     errorMessage =  item['message'];

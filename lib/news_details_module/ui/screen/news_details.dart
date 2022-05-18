@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:webview_flutter/webview_flutter.dart';
 
-import '../webview/webview.dart';
+import 'webview.dart';
 
 class NewsDetails extends StatefulWidget {
   final String? title;
@@ -16,14 +17,19 @@ class NewsDetails extends StatefulWidget {
   final String? author;
   final String? url;
 
-  NewsDetails({this.title, this.image, this.date, this.author, this.url});
+  NewsDetails({
+    this.title,
+    this.image,
+    this.date,
+    this.author,
+    this.url,
+  });
 
   @override
   State<NewsDetails> createState() => _NewsDetailsState();
 }
 
 class _NewsDetailsState extends State<NewsDetails> {
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,14 +127,12 @@ class _NewsDetailsState extends State<NewsDetails> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0).copyWith(bottom: 0),
-                  child: Expanded(
-                    child: Text(
-                      "-${timeago.format(DateTime.parse(widget.date.toString()))}",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                      ),
+                  child: Text(
+                    "-${timeago.format(DateTime.parse(widget.date.toString()))}",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
                     ),
                   ),
                 ),
@@ -139,25 +143,23 @@ class _NewsDetailsState extends State<NewsDetails> {
             ),
             Padding(
               padding: const EdgeInsets.all(16.0).copyWith(bottom: 0),
-              child: Expanded(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WebVieww(
-                          url: widget.url,
-                        ),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WebVieww(
+                        url: widget.url,
                       ),
-                    );
-                  },
-                  child: Text(
-                    "${widget.url}",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueAccent,
                     ),
+                  );
+                },
+                child: Text(
+                  "${widget.url}",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueAccent,
                   ),
                 ),
               ),

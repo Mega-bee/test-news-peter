@@ -6,7 +6,6 @@ import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../news_details_module/ui/screen/news_details.dart';
 
-
 class NewsCard extends StatelessWidget {
   final NewsOne newsone;
 
@@ -18,13 +17,15 @@ class NewsCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  NewsDetails(
-            image: newsone.urlToImage,
-            title: newsone.title,
-            date: newsone.publishedAt,
-            author: newsone.author,
-            url: newsone.url,
-          )),
+          MaterialPageRoute(
+            builder: (context) => NewsDetails(
+              image: newsone.urlToImage,
+              title: newsone.title,
+              date: newsone.publishedAt,
+              author: newsone.author,
+              url: newsone.url,
+            ),
+          ),
         );
       },
       child: Card(
@@ -124,13 +125,11 @@ class NewsCard extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0).copyWith(bottom: 14),
-                child: Expanded(
-                  child: Text(
-                    "${newsone.url ?? "No url"}",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w200,
-                    ),
+                child: Text(
+                  "${newsone.url ?? "No url"}",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w200,
                   ),
                 ),
               ),
@@ -139,13 +138,11 @@ class NewsCard extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0).copyWith(bottom: 14),
-                child: Expanded(
-                  child: Text(
-                    "-${timeago.format(DateTime.parse(newsone.publishedAt.toString()))}",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w200,
-                    ),
+                child: Text(
+                  "-${timeago.format(DateTime.parse(newsone.publishedAt.toString()))}",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w200,
                   ),
                 ),
               ),

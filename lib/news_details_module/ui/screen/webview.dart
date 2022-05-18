@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/Helpers/colors.dart';
 import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:io';
@@ -6,7 +7,7 @@ import 'dart:io';
 class WebVieww extends StatefulWidget {
   final String? url;
 
-  WebVieww({this.url});
+  WebVieww({required this.url});
 
   @override
   State<WebVieww> createState() => _WebViewwState();
@@ -67,7 +68,7 @@ class _WebViewwState extends State<WebVieww> {
           children: [
             LinearProgressIndicator(
               value: progress,
-              color: Colors.red,
+              color: customColor,
               backgroundColor: Colors.black,
             ),
             Expanded(
