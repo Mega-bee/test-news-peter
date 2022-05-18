@@ -9,7 +9,8 @@ import '../../../news_module/ui/screen/news-list-1.dart';
 class TextFormFieldWidget extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
-  final apiKey = TextEditingController();
+  final apiKey = TextEditingController(text: "7f01a1f8c35e43d89dd699dcf501cfea");
+
 
   String validatePass(value) {
     if (value.isEmpty) {

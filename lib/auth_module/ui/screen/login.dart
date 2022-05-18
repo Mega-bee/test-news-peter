@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/Helpers/colors.dart';
 
 import '../widget/TextFormField.dart';
 
@@ -29,44 +30,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              "Welcome To ",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Roboto-Bold'),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: const Text(
-                                " News",
-                                style: TextStyle(
-                                    color: Color(0xFFeb484b),
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Roboto-Regular'),
-                              ),
-                            ),
-                            Container(
-                              child: const Text(
-                                " App",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 25,
-                                    fontFamily: 'Roboto-Regular'),
-                              ),
-                            ),
-                          ],
-                        ),
+                        Center(
+                          child: Image.asset(
+                            "assets/images/logo.png",
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            color: customColor,
+                          ),
+                        )
                       ],
                     ),
                   ),
