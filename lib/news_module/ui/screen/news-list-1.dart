@@ -7,6 +7,7 @@ import '../../model/NewsOne.dart';
 import '../../../Views/connactionError.dart';
 import '../../../network/DataLoaderBloc.dart';
 import '../../../network/WebUrl.dart';
+import '../widget/searchBar.dart';
 
 class NewsListOne extends StatefulWidget {
   const NewsListOne({Key? key}) : super(key: key);
@@ -24,22 +25,31 @@ class _NewsListOneState extends State<NewsListOne> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text("Popular News"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSearch(context: context, delegate: customSearchDelegate(),);
+
+            },
+            icon: Icon(Icons.search),
+          ),
+        ],
       ),
       body: BlocProvider(
-        create: (BuildContext context) => DataLoaderBloc(Default())
+        create: (BuildContext context) =>
+        DataLoaderBloc(Default())
           ..add(FetchData(
             Urls.NEWS_ONE,
             requestType: RequestType.get,
           )),
-        child: BlocBuilder<DataLoaderBloc, GlobalState>(
-            builder: (context, state) {
+        child:
+        BlocBuilder<DataLoaderBloc, GlobalState>(builder: (context, state) {
           if (state is Loading) {
             print("Loading");
             return Center(
               child: CircularProgressIndicator(),
             );
-          }
-          else if (state is ConnectionError) {
+          } else if (state is ConnectionError) {
             print("Connection error");
             return Expanded(
               child: ConnectionErrorScreen(
@@ -50,8 +60,7 @@ class _NewsListOneState extends State<NewsListOne> {
                           requestType: RequestType.get));
                   }),
             );
-          }
-          else if (state is Error) {
+          } else if (state is Error) {
             print("Error try again please");
             return Expanded(
               child: ConnectionErrorScreen(
