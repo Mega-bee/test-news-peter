@@ -20,7 +20,7 @@ class ConnectionErrorScreen extends StatelessWidget {
             ),
             Text(
               errorMessage,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ),
             const   SizedBox(
               height: 30,
