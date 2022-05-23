@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:news_app/hive/hive.dart';
 
 import '../Model/WebServiceResponse.dart';
 
@@ -16,13 +17,13 @@ class GlobalEvent extends Equatable {
 
 class FetchData extends GlobalEvent {
   final String? url;
-  final String? token;
+//  final String? token;
   final Map<String, dynamic>? body;
   final Map<String, dynamic>? query;
   final RequestType requestType;
 
   FetchData(this.url,
-      {this.token, this.body, required this.requestType, this.query});
+      { this.body, required this.requestType, this.query});
 }
 
 class GlobalState extends Equatable {
@@ -108,7 +109,8 @@ class DataLoaderBloc extends Bloc<GlobalEvent, GlobalState> {
     return response;
   }
 
-  _setHeaders(String token) {
+  _setHeaders() {
+    var token =  AuthPrefsHelper().getToken() ?? '';
     var headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
@@ -130,20 +132,20 @@ class DataLoaderBloc extends Bloc<GlobalEvent, GlobalState> {
         if (event.requestType == RequestType.get) {
           // print("hello christian");
           response = await _getRequest(event.url ?? '',
-              headers: _setHeaders(event.token ?? ''),
+              headers: _setHeaders(),
               queryParameters: event.query);
         }
         if (event.requestType == RequestType.put) {
           print("put");
           print("BODY: " + event.body.toString());
           response = await _putRequest(event.url ?? '', event.body ?? {},
-              headers: _setHeaders(event.token ?? ''));
+              headers: _setHeaders());
         } else if (event.requestType == RequestType.post) {
           print("post");
           print(" URL : " + event.url!);
           print("BODY: " + event.body.toString());
           response = await _postRequest(event.url!, event.body ?? {},
-              headers: _setHeaders(event.token ?? ''));
+              headers: _setHeaders());
         }
         if (response != null) {
           print('Response: ${response.statusCode}');
