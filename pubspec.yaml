@@ -28,6 +28,7 @@ dependencies:
   fluttertoast:
   hive:
   hive_flutter:
+  lottie: ^1.3.0
 
 
 

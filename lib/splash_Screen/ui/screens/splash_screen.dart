@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../Auth_Module/ui/screen/login.dart';
 import '../../../hive/hive.dart';
 import '../../../news_module/ui/screen/news-list-1.dart';
+import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -30,16 +31,15 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-          child: Image.asset(
-        "assets/images/logo.png",
-        height: MediaQuery.of(context).size.height * 3,
-        width: MediaQuery.of(context).size.width * 2,
+          child:  Lottie.asset(
+        "assets/images/7984-breaking-news-broadcast-animation.json",
+
       )),
     );
   }
 
   Future<bool> getNextPage() {
-    Future.delayed(Duration(seconds: 6));
+    Future.delayed(Duration(seconds: 30));
     String? token = AuthPrefsHelper().getToken();
     if (token != null) {
       return Future.value(true);
@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(seconds: (1)),
+      duration: Duration(seconds: (30)),
       vsync: this,
     );
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {

@@ -62,6 +62,7 @@ class _NewsListOneState extends State<NewsListOne> {
     });
     print('...');
   }
+
   void _presentDatePickerTo() {
     showDatePicker(
       context: context,
@@ -133,10 +134,10 @@ class _NewsListOneState extends State<NewsListOne> {
                       Urls.NEWS_ONE,
                       requestType: RequestType.get,
                       query: FilterNewsRequest(
-                          sortBy: "PublishidAt",
-                          fromDate: _selectedDateFrom.toString(),
-                          toDate: _selectedDateTo.toString(),
-                          searchText: _searchQuery.text)
+                              sortBy: "PublishidAt",
+                              fromDate: _selectedDateFrom.toString(),
+                              toDate: _selectedDateTo.toString(),
+                              searchText: _searchQuery.text)
                           .toJson(),
                     ),
                   );
@@ -147,10 +148,10 @@ class _NewsListOneState extends State<NewsListOne> {
                       Urls.NEWS_ONE,
                       requestType: RequestType.get,
                       query: FilterNewsRequest(
-                          sortBy: "Popularity",
-                          fromDate: _selectedDateFrom.toString(),
-                          toDate: _selectedDateTo.toString(),
-                          searchText: _searchQuery.text)
+                              sortBy: "Popularity",
+                              fromDate: _selectedDateFrom.toString(),
+                              toDate: _selectedDateTo.toString(),
+                              searchText: _searchQuery.text)
                           .toJson(),
                     ),
                   );
@@ -169,7 +170,7 @@ class _NewsListOneState extends State<NewsListOne> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 color: customColor,
-                height: MediaQuery.of(context).size.height * 0.031,
+                height: MediaQuery.of(context).size.height * 0.038,
                 child: TextButton(
                     style: TextButton.styleFrom(
                       primary: Theme.of(context).primaryColor,
@@ -187,7 +188,7 @@ class _NewsListOneState extends State<NewsListOne> {
             ),
             Container(
               color: customColor,
-              height: MediaQuery.of(context).size.height * 0.031,
+              height: MediaQuery.of(context).size.height * 0.038,
               child: TextButton(
                 style: TextButton.styleFrom(
                   primary: Theme.of(context).primaryColor,
@@ -231,48 +232,51 @@ class _NewsListOneState extends State<NewsListOne> {
               },
             ),
           ]),
-          BlocBuilder<DataLoaderBloc, GlobalState>(
-              bloc: newsListBloc,
-              builder: (context, state) {
-                if (state is Loading) {
-                  print("Loading");
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state is ConnectionError) {
-                  print("Connection error");
-                  return ConnectionErrorScreen(
-                      errorMessage: 'connectionError',
-                      retry: () {
-                        BlocProvider.of<DataLoaderBloc>(context)
-                          ..add(FetchData(Urls.NEWS_ONE,
-                              requestType: RequestType.get));
-                      });
-                } else if (state is Error) {
-                  print("Error try again please");
-                  return ConnectionErrorScreen(
-                      errorMessage: state.errorMessage,
-                      retry: () {
-                        BlocProvider.of<DataLoaderBloc>(context)
-                          ..add(FetchData(Urls.NEWS_ONE,
-                              requestType: RequestType.get));
-                      });
-                } else if (state is Successfully) {
-                  print("Successfully");
-                  news.clear();
-                  for (var item in state.data) {
-                    news.add(item);
-                  }
+          Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: BlocBuilder<DataLoaderBloc, GlobalState>(
+                bloc: newsListBloc,
+                builder: (context, state) {
+                  if (state is Loading) {
+                    print("Loading");
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is ConnectionError) {
+                    print("Connection error");
+                    return ConnectionErrorScreen(
+                        errorMessage: 'connectionError',
+                        retry: () {
+                          BlocProvider.of<DataLoaderBloc>(context)
+                            ..add(FetchData(Urls.NEWS_ONE,
+                                requestType: RequestType.get));
+                        });
+                  } else if (state is Error) {
+                    print("Error try again please");
+                    return ConnectionErrorScreen(
+                        errorMessage: state.errorMessage,
+                        retry: () {
+                          BlocProvider.of<DataLoaderBloc>(context)
+                            ..add(FetchData(Urls.NEWS_ONE,
+                                requestType: RequestType.get));
+                        });
+                  } else if (state is Successfully) {
+                    print("Successfully");
+                    news.clear();
+                    for (var item in state.data) {
+                      news.add(item);
+                    }
 
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: news.length,
-                      itemBuilder: (context, index) {
-                        return NewsCard(news[index]);
-                      });
-                }
-                return Container();
-              }),
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: news.length,
+                        itemBuilder: (context, index) {
+                          return NewsCard(news[index]);
+                        });
+                  }
+                  return Container();
+                }),
+          ),
         ]));
   }
 }
