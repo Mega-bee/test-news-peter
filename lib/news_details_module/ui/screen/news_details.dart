@@ -16,25 +16,30 @@ class NewsDetails extends StatefulWidget {
   final String? date;
   final String? author;
   final String? url;
+  final String? description;
 
-  NewsDetails({
-    this.title,
-    this.image,
-    this.date,
-    this.author,
-    this.url,
-  });
+  NewsDetails(
+      {this.title,
+      this.image,
+      this.date,
+      this.author,
+      this.url,
+      this.description});
 
   @override
   State<NewsDetails> createState() => _NewsDetailsState();
 }
 
 class _NewsDetailsState extends State<NewsDetails> {
+  late WebViewController controller;
+  double progress = 0;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Details"),
+        title: Text("${widget.author}"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -143,24 +148,27 @@ class _NewsDetailsState extends State<NewsDetails> {
             ),
             Padding(
               padding: const EdgeInsets.all(16.0).copyWith(bottom: 0),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WebVieww(
-                        url: widget.url,
-                      ),
-                    ),
-                  );
-                },
-                child: Text(
-                  "${widget.url}",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent,
-                  ),
+              child: Text(
+                "${widget.url}",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+            Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+
+              child: Expanded(
+
+                child: WebView(
+                  javascriptMode: JavascriptMode.unrestricted,
+                  initialUrl: widget.url,
+                  onWebViewCreated: (controller) {
+                    this.controller = controller;
+                  },
+
                 ),
               ),
             ),
