@@ -19,14 +19,14 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    Timer(
-      Duration(seconds: 7),
-      () => Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (BuildContext context) => LoginScreen(),
-        ),
-      ),
-    );
+//    Timer(
+//      Duration(seconds: 7),
+//      () => Navigator.of(context).pushReplacement(
+//        MaterialPageRoute(
+//          builder: (BuildContext context) => LoginScreen(),
+//        ),
+//      ),
+//    );
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<bool> getNextPage() {
-//    Future.delayed(Duration(seconds: 6));
+    Future.delayed(Duration(seconds: 6));
     String? token = AuthPrefsHelper().getToken();
     if (token != null) {
       return Future.value(true);
