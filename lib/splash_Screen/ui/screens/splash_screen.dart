@@ -19,28 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
 
-  @override
-  Widget build(BuildContext context) {
-   Timer(
-     Duration(seconds: 7),
-     () => Navigator.of(context).pushReplacement(
-       MaterialPageRoute(
-         builder: (BuildContext context) => LoginScreen(),
-       ),
-     ),
-   );
-    return Scaffold(
-      backgroundColor: customColor,
-      body: Center(
-          child: Lottie.asset(
-            "assets/images/7984-breaking-news-broadcast-animation.json",
-
-          )),
-    );
-  }
-
   Future<bool> getNextPage() {
-    Future.delayed(Duration(seconds: 30));
     String? token = AuthPrefsHelper().getToken();
     if (token != null) {
       return Future.value(true);
@@ -55,21 +34,38 @@ class _SplashScreenState extends State<SplashScreen>
     //   duration: Duration(seconds: (30)),
     //   vsync: this,
     // );
+
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      getNextPage().then((value) =>
-      {
-        if (value)
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => NewsListOne()),
-                  (route) => false)
-        else
-          {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-                    (route) => false)
-          }
-      });
+      print("Splash delay");
+      Future.delayed(Duration(milliseconds: 8000));
+
+      getNextPage().then((value) => {
+            if (value)
+              Timer(
+                  Duration(seconds: 3),
+                  () => Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => NewsListOne()),
+                      (route) => false))
+            else
+              {
+                Timer(
+                    Duration(seconds: 3),
+                    () => Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        (route) => false))
+              }
+          });
     });
   }
-}
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: customColor,
+      body: Center(
+          child: Lottie.asset(
+        "assets/images/7984-breaking-news-broadcast-animation.json",
+      )),
+    );
+  }
+}

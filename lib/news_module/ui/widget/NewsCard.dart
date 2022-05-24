@@ -39,6 +39,7 @@ class NewsCard extends StatelessWidget {
               Stack(
                 children: [
                   CachedNetworkImage(
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                     progressIndicatorBuilder: (context, url, progress) =>
                         Center(
                       child: CircularProgressIndicator(

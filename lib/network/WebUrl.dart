@@ -17,5 +17,5 @@ class Urls {
   static const String NEWS_ONE = DOMAIN;
 
   /*--------TOKEN-------------------*/
-  static const apiToken = '7f01a1f8c35e43d89dd699dcf501cfea';
+  static const apiToken = 'a1a15821dc0e4d7cb89bd20d3f1e2202';
 }

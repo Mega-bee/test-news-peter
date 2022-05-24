@@ -42,8 +42,8 @@ class _NewsDetailsState extends State<NewsDetails> {
         title: Text("${widget.author}"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
+      body: ListView(
+        physics: ClampingScrollPhysics(),
           children: [
             Stack(
               children: [
@@ -156,25 +156,25 @@ class _NewsDetailsState extends State<NewsDetails> {
                 ),
               ),
             ),
+            Divider(
+              thickness: 1, // thickness of the line
+              indent: 20, // empty space to the leading edge of divider.
+              endIndent: 20, // empty space to the trailing edge of the divider.
+              color: Colors.black, // The color to use when painting the line.
+              height: 20,
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 10000),
+              child: WebView(
+                javascriptMode: JavascriptMode.unrestricted,
+                initialUrl: widget.url,
 
-            Container(
-              height: MediaQuery.of(context).size.height * 0.8,
 
-              child: Expanded(
-
-                child: WebView(
-                  javascriptMode: JavascriptMode.unrestricted,
-                  initialUrl: widget.url,
-                  onWebViewCreated: (controller) {
-                    this.controller = controller;
-                  },
-
-                ),
               ),
             ),
           ],
         ),
-      ),
+
     );
   }
 }

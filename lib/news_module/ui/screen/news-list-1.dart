@@ -67,7 +67,7 @@ class _NewsListOneState extends State<NewsListOne> {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2022),
+      firstDate: DateTime(1995),
       lastDate: DateTime.now(),
     ).then((pickedDate) {
       if (pickedDate == null) {
@@ -124,7 +124,7 @@ class _NewsListOneState extends State<NewsListOne> {
                       value: 0,
                       child: Text("Sort By")),
                   PopupMenuItem(value: 1, child: Text("Popularity")),
-                  PopupMenuItem(value: 2, child: Text("PublishidAt")),
+                  PopupMenuItem(value: 2, child: Text("PublishedAt")),
                 ];
               },
               onSelected: (value) {
@@ -134,7 +134,7 @@ class _NewsListOneState extends State<NewsListOne> {
                       Urls.NEWS_ONE,
                       requestType: RequestType.get,
                       query: FilterNewsRequest(
-                              sortBy: "PublishidAt",
+                              sortBy: "PublishedAt",
                               fromDate: _selectedDateFrom.toString(),
                               toDate: _selectedDateTo.toString(),
                               searchText: _searchQuery.text)
@@ -163,7 +163,7 @@ class _NewsListOneState extends State<NewsListOne> {
         body: Column(children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             Text(
-              "Choose date:",
+              "Filter by date:",
               style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
             Padding(
@@ -172,18 +172,19 @@ class _NewsListOneState extends State<NewsListOne> {
                 color: customColor,
                 height: MediaQuery.of(context).size.height * 0.038,
                 child: TextButton(
-                    style: TextButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
+                  style: TextButton.styleFrom(
+                    primary: Theme.of(context).primaryColor,
+                  ),
+                  child: Text(
+                    'From: ${_selectedDateFrom.year}/${_selectedDateFrom.month}/${_selectedDateFrom.day}',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
-                    child: Text(
-                      'From',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onPressed: _presentDatePickerFrom),
+                  ),
+                  onPressed: _presentDatePickerFrom,
+                ),
               ),
             ),
             Container(
@@ -194,7 +195,7 @@ class _NewsListOneState extends State<NewsListOne> {
                   primary: Theme.of(context).primaryColor,
                 ),
                 child: Text(
-                  'TO',
+                  'To: ${_selectedDateTo.year}/${_selectedDateTo.month}/${_selectedDateTo.day}',
                   style: TextStyle(
                     fontSize: 13,
                     color: Colors.white,
@@ -217,7 +218,7 @@ class _NewsListOneState extends State<NewsListOne> {
                 ),
               ),
               onPressed: () {
-                print("Date url");
+                print("Date format:");
                 newsListBloc.add(
                   FetchData(
                     Urls.NEWS_ONE,
@@ -233,6 +234,7 @@ class _NewsListOneState extends State<NewsListOne> {
             ),
           ]),
           Container(
+
             height: MediaQuery.of(context).size.height * 0.8,
             child: BlocBuilder<DataLoaderBloc, GlobalState>(
                 bloc: newsListBloc,
