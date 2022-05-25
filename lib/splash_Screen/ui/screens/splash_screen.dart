@@ -17,7 +17,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-  late AnimationController _controller;
 
   Future<bool> getNextPage() {
     String? token = AuthPrefsHelper().getToken();
@@ -30,14 +29,10 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    // _controller = AnimationController(
-    //   duration: Duration(seconds: (30)),
-    //   vsync: this,
-    // );
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       print("Splash delay");
-      Future.delayed(Duration(milliseconds: 8000));
+      // Future.delayed(Duration(milliseconds: 8000));
 
       getNextPage().then((value) => {
             if (value)
@@ -66,6 +61,5 @@ class _SplashScreenState extends State<SplashScreen>
           child: Lottie.asset(
         "assets/images/7984-breaking-news-broadcast-animation.json",
       )),
-    );
-  }
+    );  }
 }

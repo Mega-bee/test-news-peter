@@ -110,7 +110,9 @@ class DataLoaderBloc extends Bloc<GlobalEvent, GlobalState> {
   }
 
   _setHeaders() {
+
     var token =  AuthPrefsHelper().getToken() ?? '';
+    print("token: ${token}");
     var headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
     };

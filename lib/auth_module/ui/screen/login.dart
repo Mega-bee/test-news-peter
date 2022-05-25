@@ -15,7 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var mediaQueryWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: customColor,
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Image.asset(
                             "assets/images/logo.png",
                             height: MediaQuery.of(context).size.height * 0.3,
-                            color: customColor,
+                            color: textColor,
                           ),
                         )
                       ],

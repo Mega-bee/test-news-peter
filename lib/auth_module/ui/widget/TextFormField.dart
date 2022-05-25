@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:news_app/Helpers/colors.dart';
 
 import '../../../hive/hive.dart';
 import '../../../network/WebUrl.dart';
@@ -75,10 +76,10 @@ class TextFormFieldWidget extends StatelessWidget {
                 }
               }
             },
-            child: const Text(
+            child:  Text(
               'Log In',
               style: TextStyle(
-                  color: Colors.white,
+                  color: textColor,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Roboto-Bold'),
@@ -87,9 +88,14 @@ class TextFormFieldWidget extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   horizontal: mediaQueryWidth * 0.35,
                   vertical: mediaQueryHeight * 0.025),
-              primary: const Color.fromRGBO(230, 50, 53, 1),
+              primary: customColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40.0),
+
+              ),
+              side: BorderSide(
+                width: 2.0,
+                color:textColor,
               ),
             ),
           ),

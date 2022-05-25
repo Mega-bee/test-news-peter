@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:news_app/Helpers/colors.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:webview_flutter/webview_flutter.dart';
@@ -34,7 +35,6 @@ class _NewsDetailsState extends State<NewsDetails> {
   late WebViewController controller;
   double progress = 0;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +42,10 @@ class _NewsDetailsState extends State<NewsDetails> {
         title: Text("${widget.author}"),
         centerTitle: true,
       ),
-      body: ListView(
-        physics: ClampingScrollPhysics(),
+      body: Container(
+        color: customColor,
+        child: ListView(
+          physics: ClampingScrollPhysics(),
           children: [
             Stack(
               children: [
@@ -51,6 +53,7 @@ class _NewsDetailsState extends State<NewsDetails> {
                   progressIndicatorBuilder: (context, url, progress) => Center(
                     child: CircularProgressIndicator(
                       value: progress.progress,
+                      color: textColor,
                     ),
                   ),
                   width: double.infinity,
@@ -62,15 +65,15 @@ class _NewsDetailsState extends State<NewsDetails> {
                   child: Container(
                     padding: EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.white),
+                      color: customColor,
+                      border: Border.all(color: textColor),
                       borderRadius: BorderRadius.circular(28),
                     ),
                     child: Row(
                       children: [
                         Icon(
                           Icons.calendar_today,
-                          color: Colors.black,
+                          color: textColor,
                           size: 15,
                         ),
                         SizedBox(
@@ -80,7 +83,7 @@ class _NewsDetailsState extends State<NewsDetails> {
                           "${DateFormat.yMMMMEEEEd().format(DateTime.parse(widget.date.toString()))}",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: textColor,
                             fontSize: 12,
                           ),
                         ),
@@ -93,11 +96,11 @@ class _NewsDetailsState extends State<NewsDetails> {
                   top: 16,
                   child: IconButton(
                     onPressed: () async {
-                      await Share.share("${widget.url}");
+                      await Share.share("By News App: \n ${widget.url}");
                     },
                     icon: Icon(Icons.share),
                     iconSize: 20,
-                    color: Colors.white,
+                    color: textColor,
                   ),
                 ),
               ],
@@ -107,6 +110,7 @@ class _NewsDetailsState extends State<NewsDetails> {
               child: Text(
                 "${widget.title ?? "no title"}",
                 style: TextStyle(
+                  color: textColor,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.0,
@@ -126,18 +130,18 @@ class _NewsDetailsState extends State<NewsDetails> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey,
+                      color: textColor,
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0).copyWith(bottom: 0),
                   child: Text(
-                    "-${timeago.format(DateTime.parse(widget.date.toString()))}",
+                    "${timeago.format(DateTime.parse(widget.date.toString()))}",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey,
+                      color: textColor,
                     ),
                   ),
                 ),
@@ -146,35 +150,49 @@ class _NewsDetailsState extends State<NewsDetails> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0).copyWith(bottom: 0),
-              child: Text(
-                "${widget.url}",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WebVieww(url: widget.url),
+                  ),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16.0).copyWith(bottom: 0),
+                child: Text(
+                  "${widget.url}",
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
             Divider(
-              thickness: 1, // thickness of the line
-              indent: 20, // empty space to the leading edge of divider.
-              endIndent: 20, // empty space to the trailing edge of the divider.
-              color: Colors.black, // The color to use when painting the line.
+              thickness: 1,
+              // thickness of the line
+              indent: 20,
+              // empty space to the leading edge of divider.
+              endIndent: 20,
+              // empty space to the trailing edge of the divider.
+              color: textColor,
+              // The color to use when painting the line.
               height: 20,
             ),
-            ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 10000),
-              child: WebView(
-                javascriptMode: JavascriptMode.unrestricted,
-                initialUrl: widget.url,
 
-
-              ),
-            ),
+            // ConstrainedBox(
+            //   constraints: BoxConstraints(maxHeight: 10000),
+            //   child: WebView(
+            //     javascriptMode: JavascriptMode.unrestricted,
+            //     initialUrl: widget.url,
+            //   ),
+            // ),
           ],
         ),
-
+      ),
     );
   }
 }

@@ -4,7 +4,9 @@ import 'package:news_app/news_module/model/NewsOne.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../../Helpers/colors.dart';
 import '../../../news_details_module/ui/screen/news_details.dart';
+import 'custom_page_route.dart';
 
 class NewsCard extends StatelessWidget {
   final NewsOne newsone;
@@ -17,8 +19,8 @@ class NewsCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => NewsDetails(
+          CustomPageRoute(
+            child: NewsDetails(
               image: newsone.urlToImage,
               title: newsone.title,
               date: newsone.publishedAt,
@@ -30,6 +32,7 @@ class NewsCard extends StatelessWidget {
         );
       },
       child: Card(
+        color: cardColor,
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
@@ -43,11 +46,12 @@ class NewsCard extends StatelessWidget {
                     progressIndicatorBuilder: (context, url, progress) =>
                         Center(
                       child: CircularProgressIndicator(
+                        color: textColor,
                         value: progress.progress,
                       ),
                     ),
                     imageUrl: newsone.urlToImage.toString(),
-                    height: 220,
+                    height: 200,
                     width: double.infinity,
                     fit: BoxFit.fitWidth,
                   ),
@@ -59,7 +63,7 @@ class NewsCard extends StatelessWidget {
                       '${newsone.author ?? "No author"}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: textColor,
                         fontSize: 20,
                       ),
                     ),
@@ -70,15 +74,15 @@ class NewsCard extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.white),
+                        color: customColor,
+                        border: Border.all(color: textColor),
                         borderRadius: BorderRadius.circular(28),
                       ),
                       child: Row(
                         children: [
                           Icon(
                             Icons.calendar_today,
-                            color: Colors.black,
+                            color: textColor,
                             size: 15,
                           ),
                           SizedBox(
@@ -88,7 +92,7 @@ class NewsCard extends StatelessWidget {
                             "${DateFormat.yMMMMEEEEd().format(DateTime.parse(newsone.publishedAt.toString()))}",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color: textColor,
                               fontSize: 12,
                             ),
                           ),
@@ -103,6 +107,7 @@ class NewsCard extends StatelessWidget {
                 child: Text(
                   "${newsone.title ?? "no title"}",
                   style: TextStyle(
+                    color: textColor,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
@@ -117,6 +122,7 @@ class NewsCard extends StatelessWidget {
                 child: Text(
                   "${newsone.description ?? "no description"}",
                   style: TextStyle(
+                    color: textColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w200,
                   ),
@@ -130,6 +136,7 @@ class NewsCard extends StatelessWidget {
                 child: Text(
                   "${newsone.url ?? "No url"}",
                   style: TextStyle(
+                    color: textColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w200,
                   ),
@@ -141,8 +148,9 @@ class NewsCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0).copyWith(bottom: 14),
                 child: Text(
-                  "-${timeago.format(DateTime.parse(newsone.publishedAt.toString()))}",
+                  "${timeago.format(DateTime.parse(newsone.publishedAt.toString()))}",
                   style: TextStyle(
+                    color: textColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w200,
                   ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/splash_Screen/ui/screens/splash_screen.dart';
-import 'package:news_app/webviewtest.dart';
 
 import 'Auth_Module/ui/screen/login.dart';
 import 'Helpers/colors.dart';
@@ -9,6 +8,7 @@ import 'hive/hive.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await HiveSetUp.init();
+
   runApp(const MyApp());
 
 }
@@ -23,9 +23,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'News app',
       theme: ThemeData(
-        primarySwatch: customColor
+        primarySwatch: customColor,
+        useMaterial3: true
       ),
-      home: SplashScreen()
+        home: SplashScreen()
     );
   }
 }

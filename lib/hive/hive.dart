@@ -18,12 +18,17 @@ class HiveSetUp {
 class AuthPrefsHelper {
   var box = Hive.box('Authorization');
 
+
   void setToken(String username) {
     box.put('apikey', username);
   }
 
   String? getToken() {
     return box.get('apikey');
+  }
+
+  Future<void> clearToken() async{
+    await box.clear();
   }
 
 
