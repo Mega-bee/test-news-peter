@@ -1,0 +1,25 @@
+{
+
+"@@locale":"en",
+        "filterByDate": "Filter by date:",
+        "to": "to:",
+        "from": "from:",
+        "Popularity": "Popularity:",
+        "PublishedAt": "PublishedAt:",
+        "Search":"Search",
+        "Language":"Language",
+        "English":"English",
+        "Arabic":"Arabic",
+        "SearchNews":"Search news...",
+        "SortBy":"Sort By",
+        "Required":"Required *",
+        "InvalidKey":"Invalid api key",
+        "LogIn":"Log In",
+        "ApiKey":"Api Key",
+        "Theme":"Theme",
+        "Settings":"Settings",
+        "LogOut":"Log Out",
+        "Yes":"Yes",
+        "No":"No"
+
+}

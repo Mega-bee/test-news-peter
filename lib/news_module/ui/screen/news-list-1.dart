@@ -1,15 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/Helpers/colors.dart';
+import 'package:news_app/helpers/colors.dart';
 import 'package:news_app/hive/hive.dart';
 import 'package:news_app/news_module/request/news_filter_request.dart';
 import 'package:news_app/news_module/ui/widget/NewsCard.dart';
+import 'package:news_app/service/localization_service/localization_serrvice.dart';
 
 import '../../../Auth_Module/ui/screen/login.dart';
+import '../../../generated/l10n.dart';
 import '../../model/NewsOne.dart';
 import '../../../Views/connactionError.dart';
-import '../../../network/DataLoaderBloc.dart';
+import '../../../network/bloc_service/DataLoaderBloc.dart';
 import '../../../network/WebUrl.dart';
 
 class NewsListOne extends StatefulWidget {
@@ -22,8 +23,6 @@ class NewsListOne extends StatefulWidget {
 class _NewsListOneState extends State<NewsListOne> {
   List<NewsOne> news = [];
   var _searchQuery = TextEditingController();
-  String? _fromDate;
-  String? _toDate;
   final queryFocusNode = FocusNode();
   late DataLoaderBloc newsListBloc;
 
@@ -84,7 +83,10 @@ class _NewsListOneState extends State<NewsListOne> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          shadowColor: textColor,
+          elevation: 1,
           automaticallyImplyLeading: false,
           title: TextField(
             controller: _searchQuery,
@@ -93,18 +95,10 @@ class _NewsListOneState extends State<NewsListOne> {
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
 //              border: InputBorder.none,
-              hintText: "Search news...",
+              hintText: S.of(context).SearchNews,
               hintStyle: TextStyle(color: Colors.white),
             ),
           ),
-          leading: IconButton(
-              onPressed: () {
-                AuthPrefsHelper().clearToken().then((value) =>
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                        (route) => false));
-              },
-              icon: Icon(Icons.logout)),
           actions: [
             IconButton(
               onPressed: () {
@@ -124,7 +118,7 @@ class _NewsListOneState extends State<NewsListOne> {
               icon: Icon(Icons.search),
             ),
             PopupMenuButton(
-              color: customColor,
+              color: ThemeHelper().getisDark() ? blackColor : customColor,
               icon: Icon(Icons.sort),
               itemBuilder: (context) {
                 return [
@@ -132,11 +126,11 @@ class _NewsListOneState extends State<NewsListOne> {
                       height: 2,
                       textStyle: TextStyle(color: textColor),
                       value: 0,
-                      child: Text("Sort By")),
+                      child: Text(S.of(context).SortBy)),
                   PopupMenuItem(
                       value: 1,
                       child: Text(
-                        "Popularity",
+                        S.of(context).Popularity,
                         style: TextStyle(
                           color: textColor,
                         ),
@@ -144,7 +138,7 @@ class _NewsListOneState extends State<NewsListOne> {
                   PopupMenuItem(
                       value: 2,
                       child: Text(
-                        "PublishedAt",
+                        S.of(context).PublishedAt,
                         style: TextStyle(
                           color: textColor,
                         ),
@@ -181,136 +175,141 @@ class _NewsListOneState extends State<NewsListOne> {
                   );
                 }
               },
-            )
+            ),
           ],
         ),
-        body: Container(
-          color: customColor,
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-              Text(
-                "Filter by date:",
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: textColor,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  color: customColor,
-                  height: MediaQuery.of(context).size.height * 0.038,
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
-                    ),
-                    child: Text(
-                      'From: ${_selectedDateFrom.year}/${_selectedDateFrom.month}/${_selectedDateFrom.day}',
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      S.of(context).filterByDate,
                       style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.white,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
+                        color: textColor,
                       ),
                     ),
-                    onPressed: _presentDatePickerFrom,
-                  ),
-                ),
-              ),
-              Container(
-                color: customColor,
-                height: MediaQuery.of(context).size.height * 0.038,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
-                  ),
-                  child: Text(
-                    'To: ${_selectedDateTo.year}/${_selectedDateTo.month}/${_selectedDateTo.day}',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        color: ThemeHelper().getisDark() ? blackColor : customColor,
+                        height: MediaQuery.of(context).size.height * 0.038,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Theme.of(context).primaryColor,
+                          ),
+                          child: Text(
+                            '${S.of(context).from} ${_selectedDateFrom.year}/${_selectedDateFrom.month}/${_selectedDateFrom.day}',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: _presentDatePickerFrom,
+                        ),
+                      ),
                     ),
-                  ),
-                  onPressed: _presentDatePickerTo,
-                ),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
-                ),
-                child: Text(
-                  'Search',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: textColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                onPressed: () {
-                  print("Date format:");
-                  newsListBloc.add(
-                    FetchData(
-                      Urls.NEWS_ONE,
-                      requestType: RequestType.get,
-                      query: FilterNewsRequest(
-                              fromDate: _selectedDateFrom.toString(),
-                              toDate: _selectedDateTo.toString(),
-                              searchText: _searchQuery.text)
-                          .toJson(),
+                    Container(
+                      color:ThemeHelper().getisDark() ? blackColor : customColor,
+                      height: MediaQuery.of(context).size.height * 0.038,
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Theme.of(context).primaryColor,
+                        ),
+                        child: Text(
+                          '${S.of(context).to} ${_selectedDateTo.year}/${_selectedDateTo.month}/${_selectedDateTo.day}',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onPressed: _presentDatePickerTo,
+                      ),
                     ),
-                  );
-                },
-              ),
-            ]),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: BlocBuilder<DataLoaderBloc, GlobalState>(
-                  bloc: newsListBloc,
-                  builder: (context, state) {
-                    if (state is Loading) {
-                      print("Loading");
-                      return Center(
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        primary: Theme.of(context).primaryColor,
+                      ),
+                      child: Text(
+                        'Search',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () {
+                        print("Date format:");
+                        newsListBloc.add(
+                          FetchData(
+                            Urls.NEWS_ONE,
+                            requestType: RequestType.get,
+                            query: FilterNewsRequest(
+                                    fromDate: _selectedDateFrom.toString(),
+                                    toDate: _selectedDateTo.toString(),
+                                    searchText: _searchQuery.text)
+                                .toJson(),
+                          ),
+                        );
+                      },
+                    ),
+                  ]),
+            ),
+            BlocBuilder<DataLoaderBloc, GlobalState>(
+                bloc: newsListBloc,
+                builder: (context, state) {
+                  if (state is Loading) {
+                    print("Loading");
+                    return Expanded(
+                      child: Center(
                         child: CircularProgressIndicator(
                           color: textColor,
                         ),
-                      );
-                    } else if (state is ConnectionError) {
-                      print("Connection error");
-                      return ConnectionErrorScreen(
-                          errorMessage: 'connectionError',
-                          retry: () {
-                            BlocProvider.of<DataLoaderBloc>(context)
-                              ..add(FetchData(Urls.NEWS_ONE,
-                                  requestType: RequestType.get));
-                          });
-                    } else if (state is Error) {
-                      print("Error try again please");
-                      return ConnectionErrorScreen(
-                          errorMessage: state.errorMessage,
-                          retry: () {
-                            BlocProvider.of<DataLoaderBloc>(context)
-                              ..add(FetchData(Urls.NEWS_ONE,
-                                  requestType: RequestType.get));
-                          });
-                    } else if (state is Successfully) {
-                      print("Successfully");
-                      news.clear();
-                      for (var item in state.data) {
-                        news.add(item);
-                      }
+                      ),
+                    );
+                  } else if (state is ConnectionError) {
+                    print("Connection error");
+                    return ConnectionErrorScreen(
+                        errorMessage: 'connectionError',
+                        retry: () {
+                          BlocProvider.of<DataLoaderBloc>(context)
+                            ..add(FetchData(Urls.NEWS_ONE,
+                                requestType: RequestType.get));
+                        });
+                  } else if (state is Error) {
+                    print("Error try again please");
+                    return ConnectionErrorScreen(
+                        errorMessage: state.errorMessage,
+                        retry: () {
+                          BlocProvider.of<DataLoaderBloc>(context)
+                            ..add(FetchData(Urls.NEWS_ONE,
+                                requestType: RequestType.get));
+                        });
+                  } else if (state is Successfully) {
+                    print("Successfully");
+                    news.clear();
+                    for (var item in state.data) {
+                      news.add(item);
+                    }
 
-                      return ListView.builder(
+                    return Expanded(
+                      child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: news.length,
                           itemBuilder: (context, index) {
                             return NewsCard(news[index]);
-                          });
-                    }
-                    return Container();
-                  }),
-            ),
-          ]),
+                          }),
+                    );
+                  }
+                  return Container();
+                }),
+          ],
         ));
   }
 }

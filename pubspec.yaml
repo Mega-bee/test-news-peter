@@ -20,6 +20,7 @@ dependencies:
   equatable: ^2.0.3
   dio: ^4.0.6
   intl:
+  intl_utils:
   timeago:
   cached_network_image: ^3.2.0
   share_plus: ^4.0.4
@@ -29,6 +30,8 @@ dependencies:
   hive:
   hive_flutter:
   lottie: ^1.3.0
+  rxdart:
+  curved_navigation_bar:
 
 
 
@@ -52,4 +55,5 @@ flutter:
 
   assets:
      - assets/images/
-
+flutter_intl:
+  enabled: true

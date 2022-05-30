@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:news_app/hive/hive.dart';
 
-import '../Model/WebServiceResponse.dart';
+import '../../Model/WebServiceResponse.dart';
+import '../WebUrl.dart';
 
 enum RequestType { get, post, put }
 
@@ -154,16 +155,19 @@ class DataLoaderBloc extends Bloc<GlobalEvent, GlobalState> {
           print('Body: ${response.body}');
           WebServiceResponse? webServiceResponse;
           try {
+            if(event.url == Urls.NEWS_ONE){
+              webServiceResponse =
+                  WebServiceResponse.fromJson(json.decode(response.body));
+            }else{
 
-            webServiceResponse =
-                WebServiceResponse.fromJson(json.decode(response.body));
+            }
 
           } catch (exception) {
             print("exception: ${exception}");
             // listener.onJsonDataLoadingFailure(1);
             yield ConnectionError();
           }
-          if (webServiceResponse != null) {
+          if (webServiceResponse != null ) {
             print(webServiceResponse.status ?? 'hello');
             if (webServiceResponse.status == 'error') {
               try {

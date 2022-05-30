@@ -1,0 +1,26 @@
+{
+
+"@@locale":"ar",
+        "filterByDate": ":تصفية حسب التاريخ",
+        "to": ":الى",
+        "from": ":من",
+         "Popularity": "شعبية:",
+         "PublishedAt": "نشرت في:",
+         "Search":"بحث",
+         "Language":"اللغة",
+         "English":"إنجليزي",
+         "Arabic":"عربي",
+         "SearchNews":"...ابحث في الأخبار",
+         "SortBy":"ترتيب حسب",
+         "Required":"مطلوب *",
+         "InvalidKey":"مفتاح API غير صالح",
+         "LogIn":"تسجيل دخول",
+         "ApiKey":"مفتاح API",
+         "Theme":"لون التطبيق",
+         "Settings":"إعدادات",
+         "LogOut":"تسجيل خروج",
+          "Yes":"نعم",
+          "No":"لا"
+
+
+}

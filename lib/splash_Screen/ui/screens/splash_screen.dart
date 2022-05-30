@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../Auth_Module/ui/screen/login.dart';
 import '../../../Helpers/colors.dart';
 import '../../../hive/hive.dart';
+import '../../../navigation_bar/navigationBar.dart';
 import '../../../news_module/ui/screen/news-list-1.dart';
 import 'package:lottie/lottie.dart';
 
@@ -17,7 +18,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-
   Future<bool> getNextPage() {
     String? token = AuthPrefsHelper().getToken();
     if (token != null) {
@@ -39,7 +39,9 @@ class _SplashScreenState extends State<SplashScreen>
               Timer(
                   Duration(seconds: 3),
                   () => Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => NewsListOne()),
+                      MaterialPageRoute(
+                        builder: (context) =>Navigation(),
+                      ),
                       (route) => false))
             else
               {
@@ -61,5 +63,6 @@ class _SplashScreenState extends State<SplashScreen>
           child: Lottie.asset(
         "assets/images/7984-breaking-news-broadcast-animation.json",
       )),
-    );  }
+    );
+  }
 }

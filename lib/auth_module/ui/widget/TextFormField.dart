@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:news_app/Helpers/colors.dart';
-
+import '../../../generated/l10n.dart';
 import '../../../hive/hive.dart';
+import '../../../navigation_bar/navigationBar.dart';
 import '../../../network/WebUrl.dart';
 import '../../../news_module/ui/screen/news-list-1.dart';
 
@@ -37,7 +38,7 @@ class TextFormFieldWidget extends StatelessWidget {
                 prefixIcon: Icon(Icons.key),
                 filled: true,
                 fillColor: Colors.white,
-                hintText: " Api Key",
+                hintText: S.of(context).ApiKey,
                 enabledBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(width: 2, color: Colors.black12)),
@@ -47,7 +48,7 @@ class TextFormFieldWidget extends StatelessWidget {
                 ),
               ),
               validator: MultiValidator([
-                RequiredValidator(errorText: 'Required *'),
+                RequiredValidator(errorText: S.of(context).Required),
                 // EmailValidator(errorText: 'Not a valid Key'),
               ]),
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -63,21 +64,26 @@ class TextFormFieldWidget extends StatelessWidget {
                 _formKey.currentState!.validate();
               }
               else if (apiKey.text != Urls.apiToken) {
-                Fluttertoast.showToast(msg: "Invalid api key");
+                Fluttertoast.showToast(msg: S.of(context).InvalidKey);
               }
               else {
                 {
+
+                  AuthPrefsHelper().setToken(Urls.apiToken);
+
+
+
                   AuthPrefsHelper().setToken(Urls.apiToken);
 
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => NewsListOne()),
+                    MaterialPageRoute(builder: (context) => Navigation()),
                   );
                 }
               }
             },
             child:  Text(
-              'Log In',
+              S.of(context).LogIn,
               style: TextStyle(
                   color: textColor,
                   fontSize: 18,

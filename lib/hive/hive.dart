@@ -12,12 +12,13 @@ class HiveSetUp {
 
   static Future<void> publicBoxes() async {
     await Hive.openBox('Authorization');
+    await Hive.openBox('language');
+    await Hive.openBox('themeColor');
 
   }
 }
 class AuthPrefsHelper {
   var box = Hive.box('Authorization');
-
 
   void setToken(String username) {
     box.put('apikey', username);
@@ -32,4 +33,29 @@ class AuthPrefsHelper {
   }
 
 
+}
+class LanguageHelper{
+  var box = Hive.box('language');
+
+  void setLanguage(String username) {
+    box.put('lang', username);
+  }
+
+  String? getLanguage() {
+    return box.get('lang');
+  }
+}
+class ThemeHelper{
+  var box = Hive.box('themeColor');
+
+  void setTheme(bool isDark) {
+    box.put('theme', isDark);
+  }
+
+  bool getisDark() {
+    if( box.get('theme') == null){
+      return false;
+    }
+    return box.get('theme');
+  }
 }

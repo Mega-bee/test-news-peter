@@ -16,3 +16,20 @@ class WebServiceResponse {
       }
   }}
 
+class WebServiceResponseWeather {
+  String? status;
+  String? errorMessage;
+  List<NewsOne>? data;
+  WebServiceResponseWeather({this.status, this.errorMessage, this.data});
+  WebServiceResponseWeather.fromJson(Map<String, dynamic> item) {
+   status =  item['status'];
+    errorMessage =  item['message'];
+    data = [];
+      if(item['articles'] != null) {
+        item['articles'].forEach((element) {
+       data?.add(NewsOne.fromJson(element));
+     }) ;
+      }
+  }}
+
+
