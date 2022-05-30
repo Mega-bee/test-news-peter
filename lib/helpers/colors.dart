@@ -18,3 +18,4 @@ MaterialColor textColor = MaterialColor(0xFFffffff, color);
 MaterialColor cardColor = MaterialColor(0xFF4D4C7D, color);
 MaterialColor blackColor = MaterialColor(0xFF292928, color);
 MaterialColor lighterblackColor = MaterialColor(0xFF303030, color);
+MaterialColor lightColor = MaterialColor(0xFF5c5c5c, color);

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/Helpers/colors.dart';
-import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'dart:io';
+import '../../../helpers/colors.dart';
+import '../../../hive/hive.dart';
 
 class WebVieww extends StatefulWidget {
   final String? url;
@@ -17,7 +16,6 @@ class _WebViewwState extends State<WebVieww> {
   late WebViewController controller;
   double progress = 0;
 
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -28,7 +26,7 @@ class _WebViewwState extends State<WebVieww> {
           ///stay in app
           return false;
         } else {
-          ///lease app
+          ///leave app
           return true;
         }
       },
@@ -68,17 +66,19 @@ class _WebViewwState extends State<WebVieww> {
           children: [
             LinearProgressIndicator(
               value: progress,
-              color: customColor,
+              color: ThemeHelper().getisDark() ? lightColor : textColor,
               backgroundColor: Colors.black,
             ),
             Expanded(
               child: WebView(
+                backgroundColor:
+                    ThemeHelper().getisDark() ? lightColor : textColor,
                 javascriptMode: JavascriptMode.unrestricted,
                 initialUrl: widget.url,
                 onWebViewCreated: (controller) {
                   this.controller = controller;
                 },
-                onProgress: (progress)=>setState(() {
+                onProgress: (progress) => setState(() {
                   this.progress = progress / 100;
                 }),
               ),

@@ -30,9 +30,9 @@ class AppThemeDataService {
     if (dark == true) {
       return ThemeData(
         appBarTheme:AppBarTheme(
-          color: ThemeHelper().getisDark() ? blackColor : customColor,
+          color: blackColor ,
         ),
-        scaffoldBackgroundColor: ThemeHelper().getisDark() ? blackColor : customColor,
+        scaffoldBackgroundColor:blackColor,
           brightness: Brightness.dark,
           colorScheme: darkScheme,
           useMaterial3: true,
@@ -88,9 +88,9 @@ class AppThemeDataService {
     }
     return ThemeData(
       appBarTheme:AppBarTheme(
-        color: ThemeHelper().getisDark() ? blackColor : customColor,
+        color: customColor,
       ),
-      scaffoldBackgroundColor: ThemeHelper().getisDark() ? blackColor : customColor,
+      scaffoldBackgroundColor: customColor,
         brightness: Brightness.light,
         //       primaryColor: PrimaryColor,
         colorScheme: lightScheme,
