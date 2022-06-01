@@ -1,8 +1,7 @@
 class Urls {
   /*--------BASES-------------------*/
   static const String DOMAIN = 'https://newsapi.org/v2/everything';
-//  static const String QUERY =
-//      '?q=tesla&from=2022-05-11&to=2022-05-11&sortBy=popularity&apiKey=7f01a1f8c35e43d89dd699dcf501cfea';
+  static const String WEATHER_DOMAIN = 'https://api.openweathermap.org/data/2.5/weather';
   static const String BASE_API = DOMAIN + '';
 
   static const String BASE_API_ACCOUNT = DOMAIN + '/api/';
@@ -15,6 +14,7 @@ class Urls {
 
   /*--------home-------------------*/
   static const String NEWS_ONE = DOMAIN;
+  static const String WEATHER = WEATHER_DOMAIN;
 
   /*--------TOKEN-------------------*/
   static const apiToken = 'a1a15821dc0e4d7cb89bd20d3f1e2202';

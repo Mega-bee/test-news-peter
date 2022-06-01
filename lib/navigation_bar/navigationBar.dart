@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-
 import '../helpers/colors.dart';
 import '../hive/hive.dart';
 import '../news_module/ui/screen/news-list-1.dart';
 import '../settings_module/settings.dart';
+import '../weather_module/ui/screens/weather_screen.dart';
 
 class Navigation extends StatefulWidget {
   @override
@@ -15,6 +15,7 @@ class _NavigationState extends State<Navigation> {
   int currentIndex = 0;
   final screens = [
     NewsListOne(),
+    WeatherScreen(),
     Settings(),
   ];
 
@@ -44,11 +45,18 @@ class _NavigationState extends State<Navigation> {
             color: ThemeHelper().getisDark() ? textColor : blackColor ,
           ),
           Icon(
+            Icons.cloud,
+            color: ThemeHelper().getisDark() ? textColor : blackColor,
+          ),
+          Icon(
             Icons.settings,
             color: ThemeHelper().getisDark() ? textColor : blackColor,
           ),
+
         ],
       ),
     );
   }
 }
+
+

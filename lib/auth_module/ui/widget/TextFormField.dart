@@ -6,13 +6,16 @@ import '../../../generated/l10n.dart';
 import '../../../hive/hive.dart';
 import '../../../navigation_bar/navigationBar.dart';
 import '../../../network/WebUrl.dart';
-import '../../../news_module/ui/screen/news-list-1.dart';
 
-class TextFormFieldWidget extends StatelessWidget {
+class TextFormFieldWidget extends StatefulWidget {
+  @override
+  State<TextFormFieldWidget> createState() => _TextFormFieldWidgetState();
+}
+
+class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
+  final apiKey =
+      TextEditingController(text: "a1a15821dc0e4d7cb89bd20d3f1e2202");
   final _formKey = GlobalKey<FormState>();
-
-  final apiKey = TextEditingController(text:"a1a15821dc0e4d7cb89bd20d3f1e2202");
-
 
   String validatePass(value) {
     if (value.isEmpty) {
@@ -25,12 +28,12 @@ class TextFormFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQueryHeight = MediaQuery.of(context).size.height;
     var mediaQueryWidth = MediaQuery.of(context).size.width;
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: mediaQueryWidth * 0.05),
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: mediaQueryWidth * 0.05),
+          child: Form(
+            key: _formKey,
             child: TextFormField(
               style: const TextStyle(fontSize: 20),
               controller: apiKey,
@@ -55,58 +58,50 @@ class TextFormFieldWidget extends StatelessWidget {
               // keyboardType: TextInputType.
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.04,
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.04,
+        ),
+        ElevatedButton(
+          onPressed: () {
+            if (apiKey.text.isEmpty) {
+              _formKey.currentState!.validate();
+            } else if (apiKey.text != Urls.apiToken) {
+              Fluttertoast.showToast(msg: S.of(context).InvalidKey);
+            } else {
+              {
+                AuthPrefsHelper().setToken(Urls.apiToken);
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Navigation()),
+                );
+              }
+            }
+          },
+          child: Text(
+            S.of(context).LogIn,
+            style: TextStyle(
+                color: textColor,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Roboto-Bold'),
           ),
-          ElevatedButton(
-            onPressed: () {
-              if (apiKey.text.isEmpty) {
-                _formKey.currentState!.validate();
-              }
-              else if (apiKey.text != Urls.apiToken) {
-                Fluttertoast.showToast(msg: S.of(context).InvalidKey);
-              }
-              else {
-                {
-
-                  AuthPrefsHelper().setToken(Urls.apiToken);
-
-
-
-                  AuthPrefsHelper().setToken(Urls.apiToken);
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Navigation()),
-                  );
-                }
-              }
-            },
-            child:  Text(
-              S.of(context).LogIn,
-              style: TextStyle(
-                  color: textColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Roboto-Bold'),
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(
+                horizontal: mediaQueryWidth * 0.35,
+                vertical: mediaQueryHeight * 0.025),
+            primary: customColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40.0),
             ),
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(
-                  horizontal: mediaQueryWidth * 0.35,
-                  vertical: mediaQueryHeight * 0.025),
-              primary: customColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40.0),
-
-              ),
-              side: BorderSide(
-                width: 2.0,
-                color:textColor,
-              ),
+            side: BorderSide(
+              width: 2.0,
+              color: textColor,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

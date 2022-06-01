@@ -1,5 +1,7 @@
 import 'package:news_app/news_module/model/NewsOne.dart';
 
+import '../weather_module/model/weatherModel.dart';
+
 class WebServiceResponse {
   String? status;
   String? errorMessage;
@@ -16,20 +18,6 @@ class WebServiceResponse {
       }
   }}
 
-class WebServiceResponseWeather {
-  String? status;
-  String? errorMessage;
-  List<NewsOne>? data;
-  WebServiceResponseWeather({this.status, this.errorMessage, this.data});
-  WebServiceResponseWeather.fromJson(Map<String, dynamic> item) {
-   status =  item['status'];
-    errorMessage =  item['message'];
-    data = [];
-      if(item['articles'] != null) {
-        item['articles'].forEach((element) {
-       data?.add(NewsOne.fromJson(element));
-     }) ;
-      }
-  }}
+
 
 

@@ -27,8 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     height: mediaQueryHeight * 0.62,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+
                       children: [
                         Center(
                           child: Image.asset(

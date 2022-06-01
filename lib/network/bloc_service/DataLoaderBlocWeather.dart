@@ -6,25 +6,28 @@ import 'package:http/http.dart' as http;
 import 'package:news_app/hive/hive.dart';
 
 import '../../Model/WebServiceResponse.dart';
+import '../../model/WebServiceResponse.dart';
+import '../../model/WebServiceResponseWeather.dart';
+import '../../weather_module/model/weatherModel.dart';
 import '../WebUrl.dart';
 
 enum RequestType { get, post, put }
 
-class GlobalEventWeather extends Equatable {
+class GlobalEvent extends Equatable {
   @override
   // TODO: implement props
   List<Object> get props => [];
 }
 
-class FetchData extends GlobalEventWeather {
+class FetchData extends GlobalEvent {
   final String? url;
+
 //  final String? token;
   final Map<String, dynamic>? body;
   final Map<String, dynamic>? query;
   final RequestType requestType;
 
-  FetchData(this.url,
-      { this.body, required this.requestType, this.query});
+  FetchData(this.url, {this.body, required this.requestType, this.query});
 }
 
 class GlobalState extends Equatable {
@@ -55,8 +58,8 @@ class Loading extends GlobalState {}
 
 class Default extends GlobalState {}
 
-class DataLoaderBloc extends Bloc<GlobalEventWeather, GlobalState> {
-  DataLoaderBloc(initialState) : super(initialState);
+class WeatherBloc extends Bloc<GlobalEvent, GlobalState> {
+  WeatherBloc(initialState) : super(initialState);
 
   _getRequest(String url,
       {Map<String, String>? headers,
@@ -111,8 +114,7 @@ class DataLoaderBloc extends Bloc<GlobalEventWeather, GlobalState> {
   }
 
   _setHeaders() {
-
-    var token =  AuthPrefsHelper().getToken() ?? '';
+    var token = AuthPrefsHelper().getToken() ?? '';
     print("token: ${token}");
     var headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -124,7 +126,7 @@ class DataLoaderBloc extends Bloc<GlobalEventWeather, GlobalState> {
   }
 
   @override
-  Stream<GlobalState> mapEventToState(GlobalEventWeather event) async* {
+  Stream<GlobalState> mapEventToState(GlobalEvent event) async* {
     // TODO: implement mapEventToState
     if (event is FetchData) {
       yield Loading();
@@ -135,8 +137,7 @@ class DataLoaderBloc extends Bloc<GlobalEventWeather, GlobalState> {
         if (event.requestType == RequestType.get) {
           // print("hello christian");
           response = await _getRequest(event.url ?? '',
-              headers: _setHeaders(),
-              queryParameters: event.query);
+              headers: _setHeaders(), queryParameters: event.query);
         }
         if (event.requestType == RequestType.put) {
           print("put");
@@ -153,42 +154,24 @@ class DataLoaderBloc extends Bloc<GlobalEventWeather, GlobalState> {
         if (response != null) {
           print('Response: ${response.statusCode}');
           print('Body: ${response.body}');
-          WebServiceResponse? webServiceResponse;
+          weatherModel? webServiceResponse;
           try {
-            if(event.url == Urls.NEWS_ONE){
-              webServiceResponse =
-                  WebServiceResponse.fromJson(json.decode(response.body));
-            }else{
-
-            }
-
+            webServiceResponse =
+                weatherModel.fromJson(json.decode(response.body));
           } catch (exception) {
             print("exception: ${exception}");
             // listener.onJsonDataLoadingFailure(1);
             yield ConnectionError();
           }
-          if (webServiceResponse != null ) {
-            print(webServiceResponse.status ?? 'hello');
-            if (webServiceResponse.status == 'error') {
-              try {
-                yield Error(
-                    webServiceResponse.status, webServiceResponse.errorMessage);
-                print('errorr');
-              } catch (ignored) {}
-            }
-            else if  (webServiceResponse.status =='ok') {
-              print('yield success');
-              yield Successfully(webServiceResponse.data);
-            }
-          } else {
-            print("connection errorrrrr");
-            yield ConnectionError();
+          if (webServiceResponse != null) {
+            yield Successfully(webServiceResponse);
           }
-          // return response;
         } else {
-          print('response null');
+          print("connection errorrrrr");
           yield ConnectionError();
         }
+        // return response;
+
       } catch (exception) {
         //TODO: Add Translation.
         // throw Exception('No Connection');
