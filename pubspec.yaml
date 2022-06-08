@@ -36,6 +36,8 @@ dependencies:
   conveter:
   geolocator:
   geocoding:
+  flutter_glow: ^0.2.0
+
 
 
 
@@ -47,7 +49,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/news-logo.png"
+  image_path: "assets/images/Untitled-1.png.png.png"
 
 
   flutter_lints: ^1.0.0

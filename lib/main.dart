@@ -3,7 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:news_app/service/localization_service/localization_serrvice.dart';
 import 'package:news_app/service/theme_serrvice/theme_service.dart';
 import 'package:news_app/splash_Screen/ui/screens/splash_screen.dart';
-import 'Helpers/colors.dart';
 import 'generated/l10n.dart';
 import 'hive/hive.dart';
 
@@ -25,7 +24,7 @@ class _MyAppState extends State<MyApp> {
   late LocalizationService _localizationService;
   late AppThemeDataService _appThemeDataService;
   late String lang ;
- late ThemeData activeThem;
+  late ThemeData activeThem;
 
   // This widget is the root of your application.
   @override

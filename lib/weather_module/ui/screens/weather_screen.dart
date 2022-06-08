@@ -4,12 +4,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:news_app/helpers/colors.dart';
-
 import '../../../Views/connactionError.dart';
 import '../../../network/WebUrl.dart';
 import '../../../network/bloc_service/DataLoaderBlocWeather.dart';
 import '../../model/weatherModel.dart';
-
 import '../../request/weather_filter.dart';
 
 class WeatherScreen extends StatefulWidget {
@@ -18,6 +16,7 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
+  bool firsTime = true;
   late WeatherBloc weatherBloc;
 
   late num lat = 0.0;
@@ -25,42 +24,58 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   @override
   void initState() {
-    initCurrentLocation();
     weatherBloc = WeatherBloc(Default());
-    weatherBloc.add(
-      FetchData(
-        Urls.WEATHER_DOMAIN,
-        requestType: RequestType.get,
-        query: WeatherFilterRequest(
-          lat: lat,
-          lon: lon,
-        ).toJson(),
-      ),
-    );
   }
 
-  initCurrentLocation()async{
-    await getCurrentLocation();
+  // currnetAwait()async{
+  //   await getCurrentLocation();
+  //
+  //   return getCurrentLocation();
+  // }
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    if (firsTime) {
+      await getCurrentLocation().then((value) {
+        print("value:${value}");
+        lat = value.latitude;
+        lon = value.longitude;
+      });
+      print("from init lat: ${lat}");
+      print("from init lon: ${lon}");
+
+      weatherBloc.add(
+        FetchData(
+          Urls.WEATHER_DOMAIN,
+          requestType: RequestType.get,
+          query: WeatherFilterRequest(
+            lat: lat,
+            lon: lon,
+          ).toJson(),
+        ),
+      );
+      firsTime = false;
+    }
   }
 
-  getCurrentLocation() async {
+  Future<Position> getCurrentLocation() async {
     LocationPermission permission;
     permission = await Geolocator.checkPermission();
     permission = await Geolocator.requestPermission();
-    if( permission== LocationPermission.denied){
+    if (permission == LocationPermission.denied) {
       //nothing
     }
-    var position = await Geolocator.getCurrentPosition(
+    Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    setState(() {
-      lat = position.latitude;
-      lon = position.longitude;
-
-      print("lat: ${lat}");
-      print("lon: ${lon}");
-    });
+    // setState(() {
+    //   lat = position.latitude;
+    //   lon = position.longitude;
+    //   print("lat: ${lat}");
+    //   print("lon: ${lon}");
+    // });
+    return position;
   }
-
 
   DateTime now = new DateTime.now();
 
@@ -90,8 +105,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   Urls.WEATHER_DOMAIN,
                   requestType: RequestType.get,
                   query: WeatherFilterRequest(
-                    lat: 33.8446841,
-                    lon: 35.8555651,
+                    lat: lat,
+                    lon: lon,
                   ).toJson(),
                 ),
               );
@@ -252,7 +267,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             Padding(
                               padding: const EdgeInsets.only(left: 40.0),
                               child: Text(
-                                "humidity: ${(ServiceWeather.main!.humidity! - 273.15).toStringAsFixed(1)}",
+                                "humidity: ${ServiceWeather.main!.humidity}",
                                 style:
                                     TextStyle(color: textColor, fontSize: 15),
                               ),
@@ -321,7 +336,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              "speed: ${ServiceWeather.wind!.speed ?? "no speed"}",
+                              "speed: ${ServiceWeather.wind!.speed}",
                               style: TextStyle(
                                 color: textColor,
                                 fontSize: 15,
@@ -375,7 +390,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              "All: ${ServiceWeather.clouds!.all ?? "no clouds"}",
+                              "${ServiceWeather.clouds!.all ?? "no clouds"}",
                               style: TextStyle(color: textColor, fontSize: 15),
                             ),
                           ],

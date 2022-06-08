@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import '../helpers/colors.dart';
 import '../hive/hive.dart';
+import '../news_by_date/ui/screen/news_by_date.dart';
 import '../news_module/ui/screen/news-list-1.dart';
 import '../settings_module/settings.dart';
 import '../weather_module/ui/screens/weather_screen.dart';
@@ -16,6 +17,7 @@ class _NavigationState extends State<Navigation> {
   final screens = [
     NewsListOne(),
     WeatherScreen(),
+    NewsByDate(),
     Settings(),
   ];
 
@@ -46,6 +48,10 @@ class _NavigationState extends State<Navigation> {
           ),
           Icon(
             Icons.cloud,
+            color: ThemeHelper().getisDark() ? textColor : blackColor,
+          ),
+          Icon(
+            Icons.newspaper,
             color: ThemeHelper().getisDark() ? textColor : blackColor,
           ),
           Icon(
