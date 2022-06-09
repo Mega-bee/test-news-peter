@@ -56,6 +56,7 @@ class _NavigationState extends State<Navigation> {
           Icon(
             Icons.newspaper,
             color: ThemeHelper().getisDark() ? textColor : blackColor,
+
           ),
           Icon(
               FontAwesomeIcons.instagram,
