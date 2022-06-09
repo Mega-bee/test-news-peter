@@ -4,8 +4,7 @@ class Urls {
   static const String WEATHER_DOMAIN = 'https://api.openweathermap.org/data/2.5/weather';
   static const String NEWS_BY_DATE_DOMAIN = 'https://numbersapi.p.rapidapi.com/';
   static const String NEWS_BY_DATE_DOMAIN_Date = '6/2/date';
-  static const String INSTAGRAM_DOMAIN = '6/2/date';
-  static const String BASE_API = DOMAIN + 'https://instagram47.p.rapidapi.com/';
+  static const String INSTAGRAM_DOMAIN = 'https://instagram47.p.rapidapi.com/get_user_id';
 
   static const String BASE_API_ACCOUNT = DOMAIN + '/api/';
   static const String BASE_API_PATIENTS = DOMAIN + '/api/';

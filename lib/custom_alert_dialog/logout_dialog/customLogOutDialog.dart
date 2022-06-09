@@ -4,7 +4,7 @@ import '../../Auth_Module/ui/screen/login.dart';
 import '../../generated/l10n.dart';
 import '../../helpers/colors.dart';
 import '../../hive/hive.dart';
-import '../../service/localization_service/localization_serrvice.dart';
+
 
 class CustomLogOutDialog extends StatefulWidget {
   final String title;
@@ -14,10 +14,9 @@ class CustomLogOutDialog extends StatefulWidget {
 
   CustomLogOutDialog(
       {required this.title,
-      required this.content,
-      required this.yesBtn,
-      required this.noBtn, darkBtn});
-
+        required this.content,
+        required this.yesBtn,
+        required this.noBtn,});
   @override
   State<CustomLogOutDialog> createState() => _CustomLogOutDialog();
 }
@@ -57,14 +56,11 @@ class _CustomLogOutDialog extends State<CustomLogOutDialog> {
             children: [
               TextButton(
                   onPressed: () {
-                    AuthPrefsHelper().clearToken().then((value) =>
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()),
-                            (route) => false));
+                    widget.yesBtn();
+
                   },
                   child: Text(
-                      S.of(context).Yes,
+                    "yes",
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -73,9 +69,9 @@ class _CustomLogOutDialog extends State<CustomLogOutDialog> {
                   )),
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  widget.noBtn();
                 },
-                child: Text(S.of(context).No,
+                child: Text("no",
                     style: TextStyle(
                       color: textColor,
                       fontSize: 15,
