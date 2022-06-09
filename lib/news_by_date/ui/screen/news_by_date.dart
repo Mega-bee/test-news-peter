@@ -20,14 +20,17 @@ class NewsByDate extends StatefulWidget {
 class _NewsByDate extends State<NewsByDate> {
   late NewsByDateBloc newsByDate;
 
-
   @override
   void initState() {
     newsByDate = NewsByDateBloc(Default());
     newsByDate.add(FetchData(
-        Urls.NEWS_DATE,
+        Urls.NEWS_DATE +
+            _selectedDate.month.toString() +
+            '/' +
+            _selectedDate.day.toString() +
+            '/date',
         requestType: RequestType.get,
-        query: NewsByDateFilterRequest(fragment: true, json: true).toJson()));
+        query: NewsByDateFilterRequest().toJson()));
   }
 
   var _selectedDate = DateTime.now();
@@ -45,6 +48,14 @@ class _NewsByDate extends State<NewsByDate> {
       setState(() {
         _selectedDate = pickedDate;
       });
+      newsByDate.add(FetchData(
+          Urls.NEWS_DATE +
+              _selectedDate.month.toString() +
+              '/' +
+              _selectedDate.day.toString() +
+              '/date',
+          requestType: RequestType.get,
+          query: NewsByDateFilterRequest().toJson()));
     });
   }
 
@@ -85,64 +96,83 @@ class _NewsByDate extends State<NewsByDate> {
             } else if (state is Successfully) {
               NewsByDateModel newsByDateModel = state.data as NewsByDateModel;
 
-              return Column(
-                children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          S.of(context).filterByDate,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: textColor,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            color: ThemeHelper().getisDark()
-                                ? blackColor
-                                : customColor,
-                            height: MediaQuery.of(context).size.height * 0.080,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Theme.of(context).primaryColor,
-                              ),
-                              child: Text(
-                                '${S.of(context).from} ${_selectedDate.year}/${_selectedDate.month}/${_selectedDate.day}',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              onPressed: _presentDatePicker,
+              return Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            S.of(context).filterByDate,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: textColor,
                             ),
                           ),
-                        ),
-                      ]),
-                  Text(
-                    "Text: ${newsByDateModel.text}",
-                    style: TextStyle(color: textColor, fontSize: 20),
-                  ),
-                  Text(
-                    "Found: ${newsByDateModel.found}",
-                    style: TextStyle(color: textColor, fontSize: 20),
-                  ),
-                  Text(
-                    "Number: ${newsByDateModel.number}",
-                    style: TextStyle(color: textColor, fontSize: 20),
-                  ),
-                  Text(
-                    "Type: ${newsByDateModel.type}",
-                    style: TextStyle(color: textColor, fontSize: 20),
-                  ),
-                  Text(
-                    "Year: ${newsByDateModel.year}",
-                    style: TextStyle(color: textColor, fontSize: 20),
-                  ),
-                ],
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              color: ThemeHelper().getisDark()
+                                  ? blackColor
+                                  : customColor,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.080,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Theme.of(context).primaryColor,
+                                ),
+                                child: Text(
+                                  '${S.of(context).from} ${_selectedDate.year}/${_selectedDate.month}/${_selectedDate.day}',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                onPressed: _presentDatePicker,
+                              ),
+                            ),
+                          ),
+                        ]),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Text(
+                      "Text: ${newsByDateModel.text}",
+                      style: TextStyle(color: textColor, fontSize: 15),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "Found: ${newsByDateModel.found}",
+                      style: TextStyle(color: textColor, fontSize: 20),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "Number: ${newsByDateModel.number}",
+                      style: TextStyle(color: textColor, fontSize: 20),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "Type: ${newsByDateModel.type}",
+                      style: TextStyle(color: textColor, fontSize: 20),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "Year: ${newsByDateModel.year}",
+                      style: TextStyle(color: textColor, fontSize: 20),
+                    ),
+                  ],
+                ),
               );
             }
             return Container();
